@@ -3,6 +3,7 @@ import { Task, TaskStatus } from './task.model';
 import { v4 as uuid } from 'uuid';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
+import { UpdateTaskDto } from './dto/update-task.dto';
 
 @Injectable()
 export class TasksService {
@@ -68,8 +69,13 @@ export class TasksService {
     this.tasks = this.tasks.filter((task) => task.id !== found.id); //not best practice
   }
 
-  updateTaskStatus(id: string, status: TaskStatus): Task {
+  updateTaskStatus(id: string, updateTask: UpdateTaskDto): Task {
+    const { title, description, sequence, date, status } = updateTask;
     const task = this.getTaskById(id);
+    task.title = title;
+    task.description = description;
+    task.sequence = sequence;
+    task.date = date;
     task.status = status;
     return task;
   }
