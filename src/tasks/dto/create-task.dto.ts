@@ -1,4 +1,5 @@
-import { IsNotEmpty } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
+import { IsDate, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 
 export class CreateTaskDto {
   @IsNotEmpty()
@@ -6,4 +7,14 @@ export class CreateTaskDto {
 
   @IsNotEmpty()
   description: string;
+
+  @IsOptional()
+  @Type(() => Date)
+  @IsDate()
+  date: Date = new Date();
+
+  @Transform((value) => +value.value)
+  @IsNotEmpty()
+  @IsNumber()
+  sequence: number;
 }
